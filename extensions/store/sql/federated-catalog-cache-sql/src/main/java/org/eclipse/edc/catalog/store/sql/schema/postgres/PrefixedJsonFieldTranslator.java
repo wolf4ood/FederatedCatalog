@@ -22,7 +22,12 @@ import java.util.stream.Stream;
 
 /**
  * An extension of {@link JsonFieldTranslator} where the list of path is prefixed with
- * the provided prefix value.
+ * the provided prefix value. This is useful for mapping field that are stored in a single json column
+ * without exposing the column/path name directly. For example, we store the catalog DTO as JSON inside the `catalog` column.
+ * and we want to expose the catalog fields directly without using the prefix `catalog`. For query like
+ * properties.name = 'name' where the `properties` field is stored inside the json column `catalog` and thus
+ * the path `catalog.properties` the final JSON filter should be `catalog -> properties ->> name. With only {@link JsonFieldTranslator}
+ * we would get `catalog ->> name`.
  */
 public class PrefixedJsonFieldTranslator extends JsonFieldTranslator {
 
